@@ -11,8 +11,6 @@
             --main-color: #fff;
             --neon-blue: #00f3ff;
             --neon-pink: #ff00ff;
-            --cat-calico-yellow: #e6a735;
-            --cat-tabby-dark: #22201a;
         }
 
         body, html {
@@ -22,10 +20,12 @@
             overflow: hidden; display: flex; justify-content: center; align-items: center;
         }
 
+        /* 宇宙背景 */
         #universe { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: #050510; }
         .star { position: absolute; background: white; border-radius: 50%; animation: twinkle var(--duration) infinite; }
         @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
+        /* 贺卡容器 */
         #card-container {
             width: 100vw; height: 100vh;
             display: none; flex-direction: column; justify-content: center; align-items: center;
@@ -34,29 +34,30 @@
 
         .hb-title {
             font-size: clamp(2rem, 8vw, 3.5rem);
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             text-shadow: 0 0 10px #fff, 0 0 20px var(--neon-blue);
             z-index: 20;
         }
 
-        /* 让SVG容器自适应且居中 */
+        /* 主视觉 SVG */
         .main-visual {
-            width: 95%; max-width: 900px; height: auto;
-            filter: drop-shadow(0 0 20px rgba(0, 243, 255, 0.2));
+            width: 95%; max-width: 800px; height: auto;
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
         }
 
-        /* 内部文字样式 */
+        /* 书内文字样式 */
         .inner-text {
-            color: #111;
+            color: #111; /* 如果你的书页是黑色的，请把这里改成 #fff */
             font-family: 'Ma Shan Zheng', cursive;
             font-size: 14px;
             text-align: center;
-            line-height: 1.5;
+            line-height: 1.6;
             display: flex; justify-content: center; align-items: center; height: 100%;
         }
 
         .pixel-cat { position: absolute; font-size: 30px; z-index: 5; pointer-events: none; }
 
+        /* 启动层 */
         #overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000;
             display: flex; justify-content: center; align-items: center;
@@ -77,29 +78,10 @@
         <h1 class="hb-title">Happy Birthday</h1>
         
         <svg class="main-visual" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-            <g id="cat-left">
-                <path d="M30 280 Q30 110 110 110 L150 190 L110 290 Z" fill="#222"/> 
-                <path d="M50 230 L90 160 L110 190 L70 270 Z" fill="var(--cat-calico-yellow)"/> 
-                <rect x="100" y="160" width="40" height="15" fill="white"/> 
-                <circle cx="120" cy="130" r="35" fill="#111"/> 
-                <path d="M100 145 Q120 160 140 145" fill="white"/> 
-                <path d="M90 110 L80 80 L105 105 Z" fill="#111"/> 
-                <path d="M150 110 L160 80 L135 105 Z" fill="#111"/>
-            </g>
-
-            <g id="cat-right">
-                <path d="M370 280 Q370 110 290 110 L250 190 L290 290 Z" fill="var(--cat-tabby-dark)"/>
-                <path d="M350 230 L320 160 L300 190 L330 270 Z" stroke="#111" stroke-width="4" opacity="0.4"/> 
-                <circle cx="280" cy="130" r="35" fill="#111"/> 
-                <path d="M265 155 Q280 165 295 155" stroke="white" stroke-width="5" fill="none" stroke-linecap="round"/> 
-                <path d="M250 110 L240 80 L265 105 Z" fill="#111"/> 
-                <path d="M310 110 L320 80 L295 105 Z" fill="#111"/>
-            </g>
-
-            <rect x="140" y="150" width="120" height="140" fill="#fff" rx="3" stroke="#ccc" stroke-width="1"/>
-            <path d="M140 150 L145 295 L255 295 L260 150 Z" fill="#fafafa"/>
             
-            <foreignObject x="150" y="170" width="100" height="100">
+            <image href="cats.png" x="0" y="20" width="400" height="280" preserveAspectRatio="xMidYMid meet"/>
+
+            <foreignObject x="150" y="160" width="100" height="100">
                 <div xmlns="http://www.w3.org/1999/xhtml" class="inner-text">
                     亲爱的小跳：<br/>
                     生活永远有惊喜<br/>
@@ -108,12 +90,12 @@
                 </div>
             </foreignObject>
 
-            <g id="cake" transform="translate(170, 260) scale(0.7)">
-                <rect x="0" y="10" width="60" height="30" fill="#fff" rx="2" stroke="#ff00ff" stroke-width="1"/>
-                <circle cx="30" cy="-15" r="4" fill="yellow">
-                    <animate attributeName="opacity" values="1;0.4;1" dur="0.8s" repeatCount="indefinite" />
+            <g id="cake" transform="translate(185, 260) scale(0.6)">
+                <rect x="0" y="10" width="60" height="25" fill="#fff" rx="2" stroke="#ff00ff" stroke-width="1"/>
+                <rect x="28" y="-5" width="4" height="15" fill="#ff00ff"/>
+                <circle cx="30" cy="-12" r="5" fill="yellow">
+                    <animate attributeName="opacity" values="1;0.4;1" dur="0.6s" repeatCount="indefinite" />
                 </circle>
-                <rect x="28" y="-10" width="4" height="10" fill="#ff00ff"/>
             </g>
         </svg>
     </div>
@@ -121,7 +103,7 @@
     <audio id="bgm" loop><source src="music.mp3" type="audio/mpeg"></audio>
 
     <script>
-        // 宇宙星空
+        // 背景宇宙
         const universe = document.getElementById('universe');
         for (let i = 0; i < 100; i++) {
             const star = document.createElement('div');
@@ -132,11 +114,11 @@
             universe.appendChild(star);
         }
 
-        // 像素猫乱斗
+        // 像素猫乱斗生成
         function createChaosCat() {
             const cat = document.createElement('div');
             cat.className = 'pixel-cat';
-            const icons = ['🐈', '🐈‍⬛', '🐱', '✨', '🎂', '🎈'];
+            const icons = ['🐈', '🐈‍⬛', '🐱', '🎁', '🎂', '🎈', '✨'];
             cat.innerHTML = icons[Math.floor(Math.random()*icons.length)];
             const side = Math.floor(Math.random()*4);
             let sx, sy, ex, ey;
@@ -146,10 +128,10 @@
             else {sx=Math.random()*100; sy=110; ex=Math.random()*100; ey=-10;}
             cat.style.left = sx+'vw'; cat.style.top = sy+'vh';
             document.body.appendChild(cat);
-            const dur = Math.random()*3000+2000;
+            const dur = Math.random()*4000+2000;
             cat.animate([
                 {left: sx+'vw', top: sy+'vh', transform: `rotate(0deg)`},
-                {left: ex+'vw', top: ey+'vh', transform: `rotate(${Math.random()*720}deg)`}
+                {left: ex+'vw', top: ey+'vh', transform: `rotate(${Math.random()*1080}deg)`}
             ], {duration: dur, easing: 'linear'});
             setTimeout(()=>cat.remove(), dur);
         }
@@ -157,8 +139,9 @@
         function startExperience() {
             document.getElementById('overlay').style.display = 'none';
             document.getElementById('card-container').style.display = 'flex';
-            document.getElementById('bgm').play();
-            setInterval(createChaosCat, 600);
+            const audio = document.getElementById('bgm');
+            audio.play().catch(e => console.log("Music error:", e));
+            setInterval(createChaosCat, 500); // 乱斗频率稍微调快了一点
         }
     </script>
 </body>
