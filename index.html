@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小跳的26岁盛宴</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #000;
+            --main-color: #fff;
+            --accent-glow: rgba(255, 255, 255, 0.4);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-color);
+            color: var(--main-color);
+            font-family: 'Ma Shan Zheng', cursive;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 宇宙背景 */
+        #universe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #111 0%, #000 100%);
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: twinkle var(--duration) infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* 赛博朋克扫描线效果 */
+        body::after {
+            content: " ";
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 4px, 3px 100%;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        /* 贺卡主体 */
+        #card-container {
+            text-align: center;
+            z-index: 10;
+            cursor: pointer;
+            transition: transform 0.5s ease;
+        }
+
+        #card-container:hover {
+            transform: scale(1.02);
+        }
+
+        /* 猫咪捧书形状 (SVG) */
+        .cat-illustration {
+            width: 300px;
+            filter: drop-shadow(0 0 15px var(--accent-glow));
+            margin-bottom: 20px;
+        }
+
+        /* 文字样式 */
+        .message {
+            font-size: 1.8rem;
+            line-height: 1.6;
+            text-shadow: 0 0 10px var(--main-color);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .active .message {
+            animation: fadeInText 2s forwards 0.5s;
+        }
+
+        @keyframes fadeInText {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 像素小猫 */
+        .pixel-cat {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            image-rendering: pixelated;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        /* 启动按钮 */
+        #overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            cursor: pointer;
+            letter-spacing: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="overlay" onclick="startExperience()">
+        <p>[ 点击打开 ]</p>
+    </div>
+
+    <div id="universe"></div>
+
+    <div id="card-container">
+        <svg class="cat-illustration" viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M40 100 Q40 50 70 50 L90 80 L70 110 Z" fill="#222" /> <circle cx="75" cy="55" r="15" fill="#111" /> <path d="M70 60 Q75 65 80 60" stroke="white" stroke-width="2" /> <rect x="68" y="68" width="14" height="6" fill="white" /> <path d="M160 100 Q160 50 130 50 L110 80 L130 110 Z" fill="#1a1a15" /> <circle cx="125" cy="55" r="15" fill="#111" /> <path d="M120 65 L130 65" stroke="white" stroke-width="3" /> <rect x="85" y="70" width="30" height="40" fill="white" />
+            <path d="M85 70 L115 70 L110 110 L80 110 Z" fill="#eee" />
+            <path d="M90 80 H110 M90 90 H110 M90 100 H110" stroke="black" stroke-width="1" />
+        </svg>
+
+        <div class="message">
+            亲爱的小跳：<br>
+            生活永远有惊喜<br>
+            祝贺你开启26岁的盛宴！
+        </div>
+    </div>
+
+    <audio id="bgm" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // 生成星星
+        const universe = document.getElementById('universe');
+        for (let i = 0; i < 150;
