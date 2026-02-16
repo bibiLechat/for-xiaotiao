@@ -4,26 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>小跳hbd</title>
-    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #000;
+            --bg-color: #0a0a0a; /* 稍微提亮一点点，防止黑猫隐身 */
             --main-color: #fff;
-            --neon-blue: #00f3ff;
+            --neon-white: rgba(255, 255, 255, 0.8);
             --neon-pink: #ff00ff;
         }
 
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
             background-color: var(--bg-color); color: var(--main-color);
-            font-family: 'Ma Shan Zheng', cursive;
+            /* 默认使用哥特中文字体 */
+            font-family: 'ZCOOL XiaoWei', serif;
             overflow: hidden; display: flex; justify-content: center; align-items: center;
         }
 
         /* 宇宙背景 */
-        #universe { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: #050510; }
+        #universe { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
         .star { position: absolute; background: white; border-radius: 50%; animation: twinkle var(--duration) infinite; }
-        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+        @keyframes twinkle { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.8; } }
 
         /* 贺卡容器 */
         #card-container {
@@ -33,43 +34,75 @@
         }
 
         .hb-title {
-            font-size: clamp(2rem, 8vw, 3.5rem);
+            font-family: 'Pirata One', cursive; /* 英文使用纯正哥特体 */
+            font-size: clamp(2.5rem, 10vw, 4rem);
             margin-bottom: 5px;
-            text-shadow: 0 0 10px #fff, 0 0 20px var(--neon-blue);
+            letter-spacing: 5px;
+            text-shadow: 0 0 10px #fff, 0 0 30px var(--neon-white);
             z-index: 20;
         }
 
         /* 主视觉 SVG */
         .main-visual {
-            width: 95%; max-width: 800px; height: auto;
-            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
+            width: 95%; max-width: 850px; height: auto;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.1));
         }
 
         /* 书内文字样式 */
         .inner-text {
-            color: #111; /* 如果你的书页是黑色的，请把这里改成 #fff */
-            font-family: 'Ma Shan Zheng', cursive;
-            font-size: 14px;
+            color: #111;
+            font-family: 'ZCOOL XiaoWei', serif;
+            font-size: 15px;
+            font-weight: bold;
             text-align: center;
-            line-height: 1.6;
+            line-height: 1.5;
             display: flex; justify-content: center; align-items: center; height: 100%;
         }
 
-        .pixel-cat { position: absolute; font-size: 30px; z-index: 5; pointer-events: none; }
-
-        /* 启动层 */
+        /* 科技感启动层 */
         #overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000;
             display: flex; justify-content: center; align-items: center;
-            z-index: 1000; cursor: pointer; color: #fff;
+            z-index: 1000; cursor: pointer;
         }
-        #overlay p { padding: 15px 30px; border: 2px solid var(--neon-blue); box-shadow: 0 0 15px var(--neon-blue); font-size: 1.2rem; }
+
+        /* 科技感切角按钮 */
+        .tech-btn {
+            position: relative;
+            padding: 20px 60px;
+            color: #fff;
+            font-family: 'Pirata One', cursive;
+            font-size: 2rem;
+            letter-spacing: 3px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #fff;
+            /* 核心：切角效果 */
+            clip-path: polygon(15% 0, 100% 0, 100% 70%, 85% 100%, 0 100%, 0 30%);
+            box-shadow: 0 0 20px var(--neon-white);
+            transition: all 0.3s;
+            animation: pulse-white 2s infinite;
+        }
+
+        .tech-btn:hover {
+            background: #fff;
+            color: #000;
+            box-shadow: 0 0 40px #fff;
+            transform: scale(1.05);
+        }
+
+        @keyframes pulse-white {
+            0% { box-shadow: 0 0 15px rgba(255,255,255,0.4); }
+            50% { box-shadow: 0 0 35px rgba(255,255,255,0.8); }
+            100% { box-shadow: 0 0 15px rgba(255,255,255,0.4); }
+        }
+
+        .pixel-cat { position: absolute; font-size: 30px; z-index: 5; pointer-events: none; opacity: 0.6; }
     </style>
 </head>
 <body>
 
     <div id="overlay" onclick="startExperience()">
-        <p>Click This!</p>
+        <div class="tech-btn">Click This!</div>
     </div>
 
     <div id="universe"></div>
@@ -83,14 +116,14 @@
 
             <foreignObject x="150" y="160" width="100" height="100">
                 <div xmlns="http://www.w3.org/1999/xhtml" class="inner-text">
-                    小跳：<br/>
-                    你好，是我
+                    亲爱的小跳：<br/>
+                    是我
                 </div>
             </foreignObject>
 
-            <g id="cake" transform="translate(185, 260) scale(0.6)">
-                <rect x="0" y="10" width="60" height="25" fill="#fff" rx="2" stroke="#ff00ff" stroke-width="1"/>
-                <rect x="28" y="-5" width="4" height="15" fill="#ff00ff"/>
+            <g id="cake" transform="translate(185, 255) scale(0.6)">
+                <rect x="0" y="10" width="60" height="25" fill="#fff" rx="2" stroke="#fff" stroke-width="1"/>
+                <rect x="28" y="-5" width="4" height="15" fill="#fff"/>
                 <circle cx="30" cy="-12" r="5" fill="yellow">
                     <animate attributeName="opacity" values="1;0.4;1" dur="0.6s" repeatCount="indefinite" />
                 </circle>
@@ -101,9 +134,8 @@
     <audio id="bgm" loop><source src="music.mp3" type="audio/mpeg"></audio>
 
     <script>
-        // 背景宇宙
         const universe = document.getElementById('universe');
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 120; i++) {
             const star = document.createElement('div');
             star.className = 'star';
             star.style.width = Math.random()*2+'px'; star.style.height = star.style.width;
@@ -112,11 +144,10 @@
             universe.appendChild(star);
         }
 
-        // 像素猫乱斗生成
         function createChaosCat() {
             const cat = document.createElement('div');
             cat.className = 'pixel-cat';
-            const icons = ['🐈', '🐈‍⬛', '🐱', '🎁', '🎂', '🎈', '✨'];
+            const icons = ['🐈', '🐈‍⬛', '💀', '🕯️', '✨', '🎈', '🖤']; // 增加了一些哥特元素
             cat.innerHTML = icons[Math.floor(Math.random()*icons.length)];
             const side = Math.floor(Math.random()*4);
             let sx, sy, ex, ey;
@@ -126,7 +157,7 @@
             else {sx=Math.random()*100; sy=110; ex=Math.random()*100; ey=-10;}
             cat.style.left = sx+'vw'; cat.style.top = sy+'vh';
             document.body.appendChild(cat);
-            const dur = Math.random()*4000+2000;
+            const dur = Math.random()*5000+3000;
             cat.animate([
                 {left: sx+'vw', top: sy+'vh', transform: `rotate(0deg)`},
                 {left: ex+'vw', top: ey+'vh', transform: `rotate(${Math.random()*1080}deg)`}
@@ -135,14 +166,14 @@
         }
 
         function startExperience() {
-            document.getElementById('overlay').style.display = 'none';
-            document.getElementById('card-container').style.display = 'flex';
-            const audio = document.getElementById('bgm');
-            audio.play().catch(e => console.log("Music error:", e));
-            setInterval(createChaosCat, 500); // 乱斗频率稍微调快了一点
+            document.getElementById('overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('overlay').style.display = 'none';
+                document.getElementById('card-container').style.display = 'flex';
+            }, 500);
+            document.getElementById('bgm').play();
+            setInterval(createChaosCat, 600);
         }
     </script>
 </body>
 </html>
-
-
